@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="6" author="happylocal">
+        <createTable tableName="post">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="title" type="text">
+                <constraints unique="true"/>
+            </column>
+            <column name="slug" type="text">
+                <constraints unique="true"/>
+            </column>
+            <column name="author_name" type="varchar(255)"/>
+            <column name="post_status" type="varchar(255)"/>
+            <column name="poster_img_src" type="text"/>
+            <column name="content" type="text">
+                <constraints unique="false"/>
+            </column>
+            <column name="hero" type="boolean" defaultValue="false"/>
+            <column name="created_at" type="timestamp"/>
+            <column name="updated_at" type="timestamp"/>
+            <column name="published_at" type="timestamp"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="7" author="happylocal">
+        <sql>insert into post(title, slug, author_name, post_status, created_at, poster_img_src, content)
+             values ('Title 1', 'title-1', 'Happy Local', 'PUBLISHED', '2024-05-01 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 2', 'title-2', 'Happy Local', 'DRAFT', '2024-05-02 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 3', 'title-3', 'Happy Local', 'DRAFT', '2024-05-03 00:00:00',
+                     'https://www.greenlinpetresorts.com/wp-content/uploads/2021/02/living-with-multiple-dogs-in-the-home-scaled-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 4', 'title-4', 'Happy Local', 'PUBLISHED', '2024-05-04 00:00:00',
+                     'https://www.dtailsgrooming.net/wp-content/uploads/2019/12/two-dogs.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 5', 'title-5', 'Happy Local', 'DRAFT', '2024-05-05 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 6', 'title-6', 'Happy Local', 'DRAFT', '2024-05-06 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 7', 'title-7', 'Happy Local', 'PUBLISHED', '2024-05-07 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 8', 'title-8', 'Happy Local', 'DRAFT', '2024-05-08 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 9', 'title-9', 'Happy Local', 'DRAFT', '2024-05-09 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 10', 'title-10', 'Happy Local', 'ARCHIVED', '2024-05-10 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 11', 'title-11', 'Happy Local', 'ARCHIVED', '2024-05-11 00:00:00',
+                     'https://www.greenlinpetresorts.com/wp-content/uploads/2021/02/living-with-multiple-dogs-in-the-home-scaled-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 12', 'title-12', 'Happy Local', 'PUBLISHED', '2024-05-12 00:00:00',
+                     'https://www.dtailsgrooming.net/wp-content/uploads/2019/12/two-dogs.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 13', 'title-13', 'Happy Local', 'PUBLISHED', '2024-05-13 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 14', 'title-14', 'Happy Local', 'DRAFT', '2024-05-14 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 15', 'title-15', 'Happy Local', 'ARCHIVED', '2024-05-15 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 16', 'title-16', 'Happy Local', 'ARCHIVED', '2024-05-16 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 17', 'title-17', 'Happy Local', 'DRAFT', '2024-05-17 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 18', 'title-18', 'Happy Local', 'DRAFT', '2024-05-18 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 19', 'title-19', 'Happy Local', 'DRAFT', '2024-05-19 00:00:00',
+                     'https://www.greenlinpetresorts.com/wp-content/uploads/2021/02/living-with-multiple-dogs-in-the-home-scaled-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 20', 'title-20', 'Happy Local', 'DRAFT', '2024-05-20 00:00:00',
+                     'https://www.dtailsgrooming.net/wp-content/uploads/2019/12/two-dogs.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 21', 'title-21', 'Happy Local', 'DRAFT', '2024-05-21 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 22', 'title-22', 'Happy Local', 'DRAFT', '2024-05-22 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 23', 'title-23', 'Happy Local', 'ARCHIVED', '2024-05-23 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 24', 'title-24', 'Happy Local', 'PUBLISHED', '2024-05-24 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 25', 'title-25', 'Happy Local', 'PUBLISHED', '2024-05-25 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 26', 'title-26', 'Happy Local', 'PUBLISHED', '2024-05-26 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 27', 'title-27', 'Happy Local', 'ARCHIVED', '2024-05-27 00:00:00',
+                     'https://www.greenlinpetresorts.com/wp-content/uploads/2021/02/living-with-multiple-dogs-in-the-home-scaled-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 28', 'title-28', 'Happy Local', 'ARCHIVED', '2024-05-28 00:00:00',
+                     'https://www.dtailsgrooming.net/wp-content/uploads/2019/12/two-dogs.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 29', 'title-29', 'Happy Local', 'ARCHIVED', '2024-05-29 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 30', 'title-30', 'Happy Local', 'ARCHIVED', '2024-05-30 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 31', 'title-31', 'Happy Local', 'DRAFT', '2024-05-31 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 32', 'title-32', 'Happy Local', 'DRAFT', '2024-06-01 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 33', 'title-33', 'Happy Local', 'DRAFT', '2024-06-02 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 34', 'title-34', 'Happy Local', 'DRAFT', '2024-06-03 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 35', 'title-35', 'Happy Local', 'ARCHIVED', '2024-06-04 00:00:00',
+                     'https://www.greenlinpetresorts.com/wp-content/uploads/2021/02/living-with-multiple-dogs-in-the-home-scaled-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 36', 'title-36', 'Happy Local', 'PUBLISHED', '2024-06-05 00:00:00',
+                     'https://www.dtailsgrooming.net/wp-content/uploads/2019/12/two-dogs.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 37', 'title-37', 'Happy Local', 'ARCHIVED', '2024-06-07 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 38', 'title-38', 'Happy Local', 'ARCHIVED', '2024-06-08 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 39', 'title-39', 'Happy Local', 'DRAFT', '2024-06-09 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                    ('Title 40', 'title-40', 'Happy Local', 'PUBLISHED', '2024-06-10 00:00:00',
+                     'https://media-be.chewy.com/wp-content/uploads/2019/09/18103948/games-to-play-with-dogs-1-1.jpg',
+                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
+        </sql>
+    </changeSet>
+
+    <changeSet id="8" author="happylocal">
+        <createTable tableName="feedback">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="varchar(255)"/>
+            <column name="user_name" type="varchar(255)"/>
+            <column name="user_email" type="varchar(255)"/>
+            <column name="content" type="text"/>
+            <column name="feedback_status" type="varchar(15)"/>
+            <column name="image_src" type="varchar(255)"/>
+            <column name="sent_at" type="timestamp"/>
+            <column name="resolved_at" type="timestamp"/>
+            <column name="reply_of_manager" type="text"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="creating_order_table" author="happylocal">
+        <createTable tableName="orders">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="number" type="varchar(30)">
+                <constraints unique="true"/>
+            </column>
+            <column name="order_status" type="varchar(20)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="status_last_updated_at" type="timestamp"/>
+            <column name="total_price" type="decimal(12,2)"/>
+            <column name="price_of_products" type="decimal(12,2)"/>
+            <column name="tax_amount" type="decimal(12,2)"/>
+            <column name="discount_amount" type="decimal(12,2)"/>
+            <column name="email" type="varchar(255)"/>
+            <column name="user_id" type="varchar(255)"/>
+            <column name="discount_id" type="bigint">
+                    <constraints foreignKeyName="fk_orders_discount_id" references="discount(id)"/>
+            </column>
+            <column name="comment_of_manager" type="text"/>
+            <column name="shipping_address" type="varchar(255)"/>
+            <column name="billing_address" type="varchar(255)"/>
+            <column name="shipping_method_id" type="bigint">
+                    <constraints foreignKeyName="fk_orders_shipping_method" references="shipping_method(id)"/>
+            </column>
+            <column name="payment_method" type="varchar(255)"/>
+            <column name="agreement_to_terms" type="boolean"/>
+            <column name="email_me_with_offers_and_news" type="boolean"/>
+        </createTable>
+
+        <createTable tableName="order_product">
+            <column name="product_id" type="bigint">
+                <constraints primaryKey="true" foreignKeyName="product_id"/>
+            </column>
+            <column name="order_id" type="bigint">
+                <constraints primaryKey="true" foreignKeyName="fk_order_product_order" references="orders(id)"/>
+            </column>
+            <column name="product_size" type="varchar(10)"/>
+            <column name="count" type="int">
+                <constraints checkConstraint="count>=1"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

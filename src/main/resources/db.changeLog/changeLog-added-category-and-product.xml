@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="creating_category_table" author="happylocal">
+        <createTable tableName="category">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints unique="true"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints unique="true"/>
+            </column>
+            <column name="path" type="varchar(255)">
+                <constraints unique="true"/>
+            </column>
+            <column name="overview" type="text"/>
+            <column name="description" type="text"/>
+            <column name="created_at" type="timestamp"/>
+            <column name="updated_at" type="timestamp"/>
+            <column name="img_src" type="varchar(255)"/>
+            <column name="coordinate_on_bannerx" type="float" defaultValue="null"/>
+            <column name="coordinate_on_bannery" type="float" defaultValue="null"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="creating_product_table" author="happylocal">
+        <createTable tableName="product">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" unique="true"/>
+            </column>
+            <column name="article" type="varchar(9)">
+                <constraints unique="true"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints unique="true"/>
+            </column>
+            <column name="price" type="decimal(12,2)"/>
+            <column name="color" type="varchar(255)"/>
+            <column name="category_id" type="bigint">
+                <constraints foreignKeyName="category_id" references="category(id)"/>
+            </column>
+            <column name="total_quantity" type="int">
+                <constraints checkConstraint="total_quantity => 1"/>
+            </column>
+            <column name="description" type="text">
+            </column>
+            <column name="product_status" type="varchar(30)"/>
+            <column name="image_path" type="text"/>
+            <column name="created_at" type="timestamp"/>
+            <column name="updated_at" type="timestamp"/>
+            <column name="product_type" type="varchar(30)"/>
+            <column name="units_sold" type="bigint" defaultValue="0">
+                <constraints checkConstraint="units_sold >= 0"/>
+            </column>
+            <column name="product_sizes" type="jsonb"/>
+            <column name="on_sale" type="boolean" defaultValue="false"/>
+            <column name="sale_price" type="decimal(12,2)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="insert_into_category_and_item" author="happylocal">
+        <sql><![CDATA[
+            insert into category(name, title, description, overview, path, img_src, coordinate_on_bannerx, coordinate_on_bannery)
+            values ('Care', 'Dog Care Supplies',
+                    'Your dog''s well-being is a top priority. That''s why we''ve curated a comprehensive catalog of high-quality dog care supplies designed to keep your furry friend happy, healthy, and well-cared for.',
+                    E'## Give your dog the royal treatment with our grooming essentials
+
+#### Shampoos and Conditioners
+
+Our range of dog shampoos and conditioners includes options for various coat types and specific needs. Whether your dog has sensitive skin, a long and silky coat, or requires medicated solutions, we have you covered. Our products are formulated to cleanse, hydrate, and soothe, leaving your dog''s coat shiny and smelling fresh.
+
+#### Brushes and Combs
+
+Regular brushing and combing are essential for maintaining a healthy coat and reducing shedding. Our selection of brushes and combs is designed to cater to different coat types. From slicker brushes for long-haired breeds to deshedding tools for heavy shedders, we have the right grooming tools for you.
+
+#### Nail Clippers
+
+Trimming your dog''s nails is a vital part of their grooming routine. Our nail clippers are designed for ease of use, ensuring a safe and stress-free experience for both you and your dog. Say goodbye to overgrown nails that can cause discomfort and potential injury
+
+#### Grooming Kits
+
+If you''re new to grooming or prefer an all-in-one solution, our grooming kits are a fantastic choice. These kits typically include a combination of essential grooming tools, making it easy to keep your dog looking their best. They are ideal for both beginners and experienced pet parents looking for convenience.
+
+## Specialty Products
+
+In addition to our core grooming supplies, we offer specialty products to address specific needs. These may include tear stain removers, ear cleaners, and paw balms. Our specialty items are formulated to tackle common grooming challenges, ensuring your dog''s comfort and well-being. Our team is dedicated to ensuring that you and your canine companion have the best shopping experience possible. We stand behind the quality of our products, and your satisfaction is our top priority.',
+                    'care', 'https://i.imgur.com/Rb7fGOo.png', 272, 228),
+                   ('Collars', 'Dog Collars',
+                    'Choosing the right dog collar is an important decision for any pet owner. With our range of options you can find a collar that keeps your furry friend safe, stylish, and comfortable. Explore a wide variety of dog collars from trusted brands.',
+                    E'## Why Choose a Quality Dog Collar?
+
+Your dog''s collar is not just an accessory; it''s a vital tool for their safety and identification.  We understand that choosing the right collar is essential for your dog''s well-being. That''s why we offer a wide selection and comprehensive guidance to help you make an informed choice. Remember that your dog''s collar it''s a reflection of your love and care for your beloved pet.
+
+### Choosing the Perfect Dog Collar: Tips and Advice
+
+#### 1.Measure for Fit
+
+Proper fit is crucial for your dog''s comfort and safety. Measure your dog''s neck circumference accurately to select the right size. Most collars come with sizing charts to assist you in choosing the appropriate size.
+
+#### 2.Consider Your Dog''s Activity Level
+
+Different dogs have different activity levels. If your dog is highly active, a durable, adjustable, and secure collar is essential. For dogs with sensitive skin or neck issues, consider padded or cushioned collars for added comfort.
+
+#### 3.Reflect on Safety Features
+
+Safety should be a top priority. Opt for collars with reflective or LED features if you walk your dog during low-light hours. These collars enhance visibility, ensuring your pet is seen by others, which is especially important near roads.
+
+#### 4.Material Matters
+
+Collars come in various materials, including nylon, leather, and chain. Each material has its own set of pros and cons. Nylon is lightweight and easy to clean, while leather is durable and stylish. Chain collars may be suitable for training purposes, but use them with caution and seek professional guidance if necessary.
+
+#### 5.Personalization Options
+
+While functionality is crucial, style can also be a factor. Some pet parents enjoy dressing up their dogs in fun and fashionable outfits. Consider your dog''s personality and your own style preferences when selecting clothes. From classic designs to trendy fashion pieces, there''s something for every taste.
+
+#### 6.Regular Checkups
+
+While functionality is crucial, style can also be a factor. Some pet parents enjoy dressing up their dogs in fun and fashionable outfits. Consider your dog''s personality and your own style preferences when selecting clothes. From classic designs to trendy fashion pieces, there''s something for every taste.
+
+### Shop with Confidence
+
+At Happy Tails, we are committed to providing you with the best selection of dog collars from top brands that prioritize quality and safety. Browse our catalog, read product descriptions, and make an informed choice for your beloved pet.
+Choosing the right dog collar is an important decision for any pet owner. With our range of options and these valuable tips, you can find a collar that keeps your furry friend both safe and stylish. Shop now and give your dog the comfort and security they deserve',
+                    'collars', 'https://i.imgur.com/xxfcU4d.png', 764, 310),
+                   ('Toys', 'Dog Toys',
+                    'Browse our wide selection of dog toys, carefully curated to cater to all breeds, sizes, and play styles. From tough chew toys to adorable plushies, we have something for every furry friend!',
+                    E'## Perfect toys for your dog''s playtime enjoyment
+
+Dogs are more than just pets; they are loyal companions and beloved members of our families. One of the best ways to show our furry friends love and care is through playtime. Dog toys are not just playthings; they''re essential tools for keeping your dog mentally and physically stimulated. When choosing dog toys, always prioritize safety. Opt for toys made from non-toxic materials and avoid small parts that your dog could swallow. Supervise playtime, especially with new toys, to ensure your dog''s safety.
+### Types of Dog Toys
+
+#### Fetch Toys
+
+Playing with your dog strengthens the bond between you and your furry friend. Balls, frisbees, and sticks are perfect for a game of fetch. They encourage your dog to run and exercise, and the joy of retrieving brings a sense of accomplishment.
+
+#### Chew Toys
+
+Regular brushing and combing are essential for maintaining a healthy coat and reducing shedding. Our selection of brushes and combs is designed to cater to different coat types. From slicker brushes for long-haired breeds to deshedding tools for heavy shedders, we have the right grooming tools for you.
+
+#### Squeaky Toys
+
+Squeaky toys mimic the sound of prey, making them particularly exciting for many dogs. These toys emit playful squeaks when bitten or squeezed, providing entertainment and engagement during playtime.
+
+#### Plush Toys
+
+Soft and cuddly plush toys are great for comfort and companionship. Plush toys provide comfort and companionship to dogs of all ages. They are soft and cuddly, making them perfect for dogs that enjoy snuggling with a plush friend. Look for plush toys with reinforced seams for added durability. Keep in mind that some dogs may enjoy gently chewing on their plush toys, while others prefer to treat them as comfort objects using them as pillows during naptime.',
+                    'toys', 'https://i.imgur.com/FM7KA2G.png', 153, 454),
+                   ('Clothing', 'Clothing Collection',
+                    'Explore our exclusive collection of high-quality dog clothes designed to keep your furry friend both stylish and comfortable. Find the perfect fit for your dog and elevate their wardrobe today.',
+                    E'## Stylish Dog Clothes from Top Brands
+Welcome to the ultimate destination for discerning dog owners and their fashionable companions. Happy tails comprehensive catalog features a curated selection of dog clothes from renowned brands that are committed to quality, style, and comfort. Whether you''re seeking cozy sweaters for those chilly evenings, rugged outdoor gear for adventurous outings, or the latest fashion trends for your stylish pooch, our catalog has it all. We understand that dogs have unique needs, and that''s why we offer a wide range of styles and sizes to cater to every breed and personality.
+
+### How to Choose the Perfect Dog Clothes: A Guide for Pet Parents
+
+#### Consider Your Dog''s Size and Breed
+
+One size does not fit all when it comes to dog clothing. Different breeds have varying body shapes and sizes. Measure your dog''s neck, chest, and length to ensure a proper fit. Many brands provide sizing charts to help you choose the right size, so be sure to refer to these guides when shopping.
+
+#### Think About the Season
+
+Just like humans, dogs have different clothing needs depending on the weather. In colder months, opt for insulating and warm clothes like sweaters, coats, and booties to keep your pup cozy during outdoor adventures. In warmer weather, lightweight and breathable options like T-shirts and cooling vests can help your dog stay comfortable.
+
+#### Consider Your Dog''s Activity Level
+
+If your dog is an active one, choose clothes that allow for easy movement. Look for designs with adjustable closures and elastic bands that provide flexibility without compromising fit. For less active dogs or those recovering from surgery, consider garments that are easy to put on and take off.
+
+#### Prioritize Safety and Comfort
+
+Ensure that the clothes you choose don''t have any small parts that your dog could chew on or swallow. Opt for materials that are soft, non-restrictive, and hypoallergenic to avoid irritation. Always check for any tags or seams that could cause discomfort.
+
+#### Style and Aesthetics
+
+While functionality is crucial, style can also be a factor. Some pet parents enjoy dressing up their dogs in fun and fashionable outfits. Consider your dog''s personality and your own style preferences when selecting clothes. From classic designs to trendy fashion pieces, there''s something for every taste.
+
+### Elevate Your Dog''s Style
+Choosing dog clothes can be a fun and rewarding experience when you keep your pet''s comfort and safety in mind. By following these guidelines, you can make sure your furry friend not only looks great but also feels great in their new attire. With our user-friendly online store, shopping for your furry friend has never been easier. Our secure checkout process and reliable shipping ensure that your dog''s new outfits will be at your doorstep in no time.',
+                    'clothing', 'https://i.imgur.com/epyUE1A.png', 712, 396),
+                   ('Furniture', 'Furniture',
+                    'Give your furry friend the gift of a good night''s sleep with our range of luxury dog beds. Crafted from high-quality materials and designed for both comfort and aesthetics, our beds provide your dog with the perfect place to rest.',
+                    E'## Elevate Your Dog''s Comfort with Stylish Dog Furniture
+
+Your dog deserves the best, not only in love and care but also in comfort and style. That''s why we''ve curated a selection of exquisite dog furniture pieces that will transform your home into a haven of luxury for your beloved canine companion. Create a space that reflects your style and provides your furry friend with a comfortable retreat. Browse our collection today and discover how you can elevate your dog''s living experience.
+
+#### Luxury Dog Beds
+
+Our dog beds come in various sizes and styles, from plush and cushioned to elevated and orthopedic. Give your dog a luxurious place to rest, ensuring they wake up refreshed and rejuvenated.
+
+#### Cozy Crates and Kennels
+
+A cozy crate can be your dog''s sanctuary, providing them with a safe and secure space they can call their own. Explore our stylish crates and kennels that blend seamlessly with your home decor while giving your dog a comfortable retreat. Our crates are available in various sizes to accommodate dogs of all breeds.
+
+#### Indoor and Outdoor Furniture
+
+Give your dog the comfort and luxury they deserve with our range of dog furniture. Create a space that reflects your style and provides your furry friend with a comfortable retreat. Browse our collection today and discover how you can elevate your dog''s living experience.
+
+### Quality and Durability
+
+Our dog furniture is crafted with the utmost care and attention to detail. We prioritize quality and durability to ensure that your investment in your dog''s comfort lasts for years to come. Rest assured that our furniture is built to withstand the wear and tear of daily use. Many of our dog furniture pieces come with additional features such as storage compartments, removable and washable covers, and built-in pet bowls, enhancing their functionality.',
+                    'furniture', 'https://i.imgur.com/UKzxOow.png', 838, 546),
+                   ('Leads', 'Leads and Harnesses',
+                    'Discover a wide range of high-quality dog leads and harnesses designed for your furry friend''s comfort. Shop now for the perfect walking companion! You can trust that our products are built to last, providing years of reliable use.',
+                    E'## Make an Informed Choice about Right Dog Leash
+
+When it comes to walking your four-legged friend, selecting the right dog leash is crucial. The choice of leash can greatly impact both your and your dog''s comfort, safety, and overall walking experience. In this guide, we''ll delve into the different types of dog leashes to help you make an informed decision. Each type of dog leash has its own advantages and disadvantages. The key is to consider your dog''s size, temperament, and your preferred walking environment when making your selection. Whichever leash you choose, always prioritize safety and ensure a secure connection between you and your beloved pet.
+
+#### Standard Dog Leash
+
+The standard dog leash is the classic choice for many dog owners. It''s typically made from nylon or leather and comes in various lengths, with 4 to 6 feet being the most common. Standard leashes offer excellent control, making them ideal for training and walking in crowded areas. They provide a solid connection between you and your four-legged friend.
+
+#### Retractable Dog Leash
+
+Retractable leashes are all about giving your dog more freedom to roam while maintaining control. They feature a retractable cord or tape that can extend and retract as your dog moves. This type is perfect for allowing your dog to explore a bit during walks, but they require responsible handling to prevent tangling and accidents.
+
+#### Adjustable-length Leash
+
+An adjustable-length leash offers versatility by allowing you to change the length as needed. It typically features multiple D-rings or clasps along its length, enabling you to customize the leash''s size for various situations. This is an excellent choice for dogs that require both close control and some freedom during their walk.
+
+#### Martingale Leash
+
+Martingale leashes combine a standard leash with a limited-slip collar. They offer gentle control over your dog''s movements without choking or causing discomfort. Martingale leashes are commonly used for dogs that have a tendency to slip out of regular collars.
+
+#### Hands-Free Leash
+
+Active dog owners love hands-free leashes that allow them to jog, hike, or walk their dogs without holding onto a traditional leash. These leashes are typically worn around the waist or across the body, leaving your hands free for other activities.
+
+#### Chain Leash
+
+Chain leashes are exceptionally durable and are often used for strong, large breeds. They provide a sturdy grip and can withstand a lot of wear and tear. However, they can be heavier and less comfortable to hold than nylon or leather leashes.
+
+#### Bungee Leash
+
+Bungee leashes have an elastic section that absorbs shock and reduces the impact of sudden pulls or jolts from your dog. They are perfect for dogs that tend to be enthusiastic pullers and help prevent injury to both you and your pup.',
+                    'leads&harnesses', 'https://i.imgur.com/XapxewI.png', 59, 547);
+          ]]>
+      insert into product(article, name, price, category_id, total_quantity, description, product_status, image_path, product_type)
+            values ('A3485752', 'MerryTartan Plaid Playsuit for Dogs, X-Small', 14.99,
+                    (select id from category where name = 'Clothing'), 10,
+                    'The Tartain Plaid Playsuit from Merry Makings is perfect for keeping your pet warm and cozy while cuddling up by the fire, taste testing Christmas cookies, and dancing under twinkling lights. ',
+                    'IN STOCK',
+                    'https://assets.petco.com/petco/image/upload/c_pad,dpr_1.0,f_auto,h_734,q_auto,w_1272/c_pad,h_734,w_1272/3780583-center-13',
+                    'OUTDOORS'),
+                   ('A4857386', 'Canada Pooch Blue Hot Pavement Dog Boots, X-Small', 49.99,
+                    (select id from category where name = 'Clothing'), 52,
+                    'Keep your pup''s paw protected and enjoy summer walks with these water-friendly summer dog shoes for hot pavement.',
+                    'IN STOCK',
+                    'https://assets.petco.com/petco/image/upload/c_pad,dpr_1.0,f_auto,q_auto,h_468,w_500/c_pad,h_468,w_500/3728443-center-1',
+                    'OUTDOORS'),
+                   ('A8574595', 'Reddy Grey Cooling Dog Bandana, X-Small/Small', 12.99,
+                    (select id from category where name = 'Clothing'), 0, '- Cooling Bandana from Reddy',
+                    'OUT OF STOCK',
+                    'https://assets.petco.com/petco/image/upload/c_pad,dpr_1.0,f_auto,q_auto,h_636,w_636/c_pad,h_636,w_636/3487838-center-10',
+                    'OUTDOORS'),
+                   ('A7895463', 'goDog Large Triceratops Dog Toy', 14.58, (select id from category where name = 'Toys'),
+                    100, 'goDog Large Triceratops Dog Toy', 'IN STOCK',
+                    'https://assets.petco.com/petco/image/upload/c_pad,dpr_1.0,f_auto,q_auto,h_636,w_636/c_pad,h_636,w_636/2448440-center-1',
+                    'OUTDOORS'),
+                   ('A7891524', 'Petstages Super Dogwood Chew Dog Toy, Large', 5.83,
+                    (select id from category where name = 'Toys'), 150,
+                    'A safe and long lasting alternative to chewing real wood sticks, Dogwood by Petstages has all the taste and texture of a natural tree branch, but will last much longer and won''t splinter and make a mess as your pup chews. ',
+                    'IN STOCK',
+                    'https://assets.petco.com/petco/image/upload/c_pad,dpr_1.0,f_auto,q_auto,h_636,w_636/c_pad,h_636,w_636/3160632-center-1',
+                    'INDOORS'),
+                   ('A7855966', 'Rose Quartz And Rhodonite Mini Beaded Dog Collar', 250.00,
+                    (select id from category where name = 'Collars'), 98,
+                    'These dog collars are crafted using gemstones, genuine leather, and skilled workmanship to give your pet the finest quality of design and function. All the metal hardware used on these products are brass and zinc alloy based, which means they are durable.',
+                    'IN STOCK',
+                    'https://qikify-cdn.nyc3.cdn.digitaloceanspaces.com/production/tmenu/instances/72786/57fe22a953803d3183c92246468617001fbf7f9ce88b7b86e07683470fcf7987.jpeg',
+                    'OUTDOORS'),
+                   ('AAABBB010', 'Frisco Plush Orthopedic Front Bolster', 152.00,
+                    (select id from category where name = 'Furniture'), 45,
+                    'Treat your furry pal to their own couch with this orthopedic bolster bed, from Frisco by Chewy. If your pooch or kitty loves to call dibs on that comfy spot on the couch',
+                    'IN STOCK', 'https://image.chewy.com/is/image/catalog/180398_MAIN._AC_SS1800_V1660404765_.jpg',
+                    'INDOORS'),
+                   ('AAABBB03', 'Jespet Goopaws Adjustable Padded Easy Control', 37.99,
+                    (select id from category where name = 'Leads'), 54,
+                    'Keep your pooch visible all night long with the Jespet Goopaws Adjustable Padded Easy Control Lightweight Reflective Dog Harness! This harness features a reflective webbing that helps keep your paw-fect pup visible during nighttime adventures.',
+                    'IN STOCK', 'https://image.chewy.com/is/image/catalog/779478_MAIN._AC_SS1800_V1676921252_.jpg',
+                    'OUTDOORS'),
+                   ('A558B54', 'KONG Cloud Collar for Dogs &amp; Cats', 17.99,
+                    (select id from category where name = 'Care'), 240,
+                    'Help your cat or dog recover peacefully—no shame required—with the KONG Cloud Collar. Designed for dogs or cats healing from surgery, rashes or wounds, this recovery collar is soft and comfortable to wear, unlike traditional plastic collars.',
+                    'IN STOCK', 'https://image.chewy.com/is/image/catalog/62499_MAIN._AC_SS1800_V1558359471_.jpg',
+                    'INDOORS'),
+                   ('AAABBB06', 'Dogswell Remedy+Recovery Dog E-Collar', 16.99,
+                    (select id from category where name = 'Care'), 150,
+                    'Help your pal heal without licking, biting or scratching with the Dogswell Remedy+Recovery Dog E-Collar. It’s a safe, gentle and humane way to prevent your dog from hurting a wound, delicate skin condition or stitches, as well as from licking medications',
+                    'IN STOCK', 'https://image.chewy.com/is/image/catalog/122592_MAIN._AC_SS1800_V1558388580_.jpg',
+                    'INDOORS'),
+                   ('AAABBB05', 'FurHaven Quilted Orthopedic Sofa', 59.99,
+                    (select id from category where name = 'Furniture'), 32,
+                    'Curling up for a quick nap or a long night’s rest has never felt better when your sleepy pet has the FurHaven Quilted Orthopedic Sofa Cat &amp; Dog Bed w/ Removable Cover. This high-quality bed is designed for maximum comfort with a soft.',
+                    'IN STOCK', 'https://image.chewy.com/is/image/catalog/266014_MAIN._AC_SS1800_V1615845695_.jpg',
+                    'INDOORS'),
+                   ('A785455', 'Frisco Padded Nylon No Pull Dog Harness', 16.99,
+                    (select id from category where name = 'Leads'), 5,
+                    'Remember to measure your pet for the paw-fect fit.** The Frisco Padded Front Lead Dog Harness is a great option for pet parents looking for a comfortable harness that will give them additional control on their walks.',
+                    'IN STOCK',
+                    'https://image.chewy.com/is/image/catalog/140020_MAIN._AC_SS1800_V1701798677_.jpg', 'OUTDOORS'),
+                   ('ABA4531', 'AFP K-Nite Glowing Stick', 100.00, (select id from category where name = 'Toys'), 100,
+                    'AFP K-Nite Glowing Stick', 'IN STOCK',
+                    'https://cdn.shopify.com/s/files/1/0702/9579/files/all-for-paws-afp-k-nite-glowing-stick-29509698879590.jpg?v=1692337333',
+                    'OUTDOORS'),
+                   ('ABA4535', 'Busy Buddy Animals Treat Dispensing Dog Toy', 12.97,
+                    (select id from category where name = 'Toys'), 0, 'Busy Buddy Animals Treat Dispensing Dog Toy',
+                    'OUT OF STOCK',
+                    'https://cdn.shopify.com/s/files/1/0702/9579/files/petsafe-busy-buddy-animals-treat-dispensing-dog-toy-3690978377830.jpg?v=1692375842',
+                    'OUTDOORS'),
+                   ('ABA4536', 'Busy Buddy Squirrel Dude Treat Dispensing Dog Toy', 12.37,
+                    (select id from category where name = 'Toys'), 100,
+                    'Busy Buddy Squirrel Dude Treat Dispensing Dog Toy', 'IN STOCK',
+                    'https://cdn.shopify.com/s/files/1/0702/9579/files/petsafe-busy-buddy-squirrel-dude-treat-dispensing-dog-toy-29509672566886.jpg?v=1692376196',
+                    'OUTDOORS'),
+                   ('ABA4537', 'Charming Pet Absurd Burds Plush Dog Toy', 16.18,
+                    (select id from category where name = 'Toys'), 100, 'Charming Pet Absurd Burds Plush Dog Toy',
+                    'IN STOCK',
+                    'https://cdn.shopify.com/s/files/1/0702/9579/files/outward-hound-charming-pet-absurd-burds-plush-dog-toy-flamingo-29509589598310.png?v=1692403738',
+                    'INDOORS'),
+                   ('ABA4538', 'Charming Pet Baby Pulleez', 20.97, (select id from category where name = 'Toys'), 100,
+                    'Charming Pet Baby Pulleez', 'IN STOCK',
+                    'https://cdn.shopify.com/s/files/1/0702/9579/files/outward-hound-charming-pet-baby-pulleez-monkey-14890348511334.jpg?v=1692403914',
+                    'OUTDOORS'),
+                   ('ABA4539', 'Charming Pet Headbangerz Plush Dog Toy', 25.77,
+                    (select id from category where name = 'Toys'), 100, 'Charming Pet Headbangerz Plush Dog Toy',
+                    'IN STOCK',
+                    'https://cdn.shopify.com/s/files/1/0702/9579/files/outward-hound-charming-pet-headbangerz-plush-dog-toy-duck-29509572886630.jpg?v=1692404275',
+                    'OUTDOORS'),
+                   ('ABA4540', 'Chew Healthy Chew Dog Toy', 25.77, (select id from category where name = 'Toys'), 0,
+                    'Chew''ems Healthy Chew Dog Toy', 'OUT OF STOCK',
+                    'https://cdn.shopify.com/s/files/1/0702/9579/files/hagen-chew-ems-healthy-chew-dog-toy-small-bacon-29552463609958.jpg?v=1692404830',
+                    'OUTDOORS'),
+                   ('AAABBB08', 'Quartz And Rhodonite Mini Beaded Dog Collar', 230.00,
+                    (select id from category where name = 'Collars'), 54,
+                    'When your dog''s personality is too big for a plain, thin collar, the Sublime® Adjustable Dog Collar is the perfect choice. These wider-than-average collars feature two-sided complementary patterns for a unique look you''ll love. And the durable plastic buckle holds up to the everyday wear a big dog puts it through1.',
+                    'IN STOCK',
+                    'https://bitchnewyork.com/cdn/shop/products/Rose-Quartz-And-Rhodonite-Mini-Beaded-Dog-Collar_1958a8c5-0e43-41f2-9f5f-d59dcf60e95f_1020x.progressive.jpg?v=1629020785',
+                    'OUTDOORS'),
+                   ('ABA4541', 'Charming Pet Thunda Tugga', 23.58, (select id from category where name = 'Toys'), 100,
+                    'Charming Pet Thunda Tugga', 'IN STOCK',
+                    'https://cdn.shopify.com/s/files/1/0702/9579/files/outward-hound-charming-pet-thunda-tugga-bunny-14888644313190.jpg?v=1692404647',
+                    'OUTDOORS'),
+                   ('ABA4542', 'Chuckit Fetch Medley Medium Dog Toy', 38.97,
+                    (select id from category where name = 'Toys'), 100, 'Chuckit! Fetch Medley Medium Dog Toy',
+                    'IN STOCK',
+                    'https://cdn.shopify.com/s/files/1/0702/9579/files/chuckit-chuckit-fetch-medley-medium-dog-toy-29514459480166.jpg?v=1692385740',
+                    'OUTDOORS'),
+                   ('ABK4540', 'Sublime Adjustable Dog Collar', 13.97, (select id from category where name = 'Collars'),
+                    5,
+                    'When your dog''s personality is too big for a plain, thin collar, the Sublime® Adjustable Dog Collar is the perfect choice. These wider-than-average collars feature two-sided complementary patterns for a unique look you''ll love. And the durable plastic buckle holds up to the everyday wear a big dog puts it through.',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/coastal-pet-products-sublime-adjustable-dog-collar-3-4-x-8-12-flower-teal-stripe-28363487641702_376x489.jpg?v=1691171472',
+                    'OUTDOORS'),
+                   ('ABA4543', 'Crusha Squeezed Animal Dog Toy', 26.97, (select id from category where name = 'Toys'),
+                    100, 'Crusha Squeezed Animal Dog Toy', 'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/silver-paw-crusha-squeezed-animal-dog-toy-shark-29172145586278_376x489.jpg?v=1692405553',
+                    'INDOORS'),
+                   ('ABA4534', 'Charming Pet Crunch Scrunch Plush Dog Toy', 22.18,
+                    (select id from category where name = 'Toys'), 100,
+                    'For the ultimate in crunching and tugging fun, Charming Pet Crunch N Scrunch toys are over 23 inches long and here to keep your dog satisfied. We''ve packed each plush animal with squeakers, crinkle and super durable rope, which makes this toy a must have for dogs that love to tug and play! Featuring K9 Tuff Guard Technology for added durability, Crunch N Scrunch animals are bound to be your dogs new favorite tuggin'' toy!',
+                    'IN STOCK',
+                    'https://cdn.shopify.com/s/files/1/0702/9579/files/outward-hound-charming-pet-crunch-n-scrunch-plush-dog-toy-mallard-koala-28824863834214.jpg?v=1692404113',
+                    'INDOORS'),
+                   ('ABK4544', 'NHL Vancouver Canucks Adjustable Collar', 33.87,
+                    (select id from category where name = 'Collars'), 24,
+                    'Available in the following sizes: 3/4" width nylon, Collar 18-24",  Leash 5 feet long', 'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/silver-paw-nhl-vancouver-canucks-adjustable-collar-and-leash-set-1-2in-adj-collar-and-5ftx1-2in-leash-set-29172056719462_376x489.jpg?v=1691334010',
+                    'OUTDOORS'),
+                   ('ABK4541', 'Lazer Brite Reflective Open-Design Adjustable', 11.47,
+                    (select id from category where name = 'Collars'), 55,
+                    'To be safe you have to be seen. Lazer Brite Open-Design Adjustable Dog Collars use the same 3M reflective material used by safety professionals, making them visible to motorists up to 600 feet away. These reflective, adjustable collars feature detailed reflective patterns laid over bright, bold colors to make them stand out day or night.',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/coastal-pet-products-lazer-brite-reflective-open-design-adjustable-collar-3-8-x-8-12-lime-geometric-28360701050982_376x489.jpg?v=1691376846',
+                    'OUTDOORS'),
+                   ('ABK4542', 'Li''l Pals Adjustable Dog Collar', 10.97,
+                    (select id from category where name = 'Collars'), 50,
+                    'Give your tiny dog the perfect fit with the Li''l Pals® Adjustable Dog Collar! This dog collar is sized specifically for small dogs and puppies and has an extra narrow width. Its adjustable design ensures a secure, comfortable fit for your dog. The durable nylon material is specially processed to prevent fraying for long-lasting use. Plus, its curved, snap-lock buckle provides added comfort. Pair this adjustable dog collar with a matching Li''l Pals harness or leash for a complete look!',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/coastal-pet-products-li-l-pals-adjustable-dog-collar-wildflower-28360782544998_376x489.jpg?v=1691409958',
+                    'OUTDOORS'),
+                   ('ABK4543', 'NHL Calgary Flames Adjustable Collar &amp; Leash Set', 42.47,
+                    (select id from category where name = 'Collars'), 0,
+                    'Size: 1" width nylon, Collar 18-24", Leash 5 feet long', 'OUT OF STOCK',
+                    'https://www.petland.ca/cdn/shop/files/silver-paw-nhl-calgary-flames-adjustable-collar-leash-set-29172081229926_376x489.jpg?v=1691334549',
+                    'OUTDOORS'),
+
+                   ('ABK4546', 'Coastal Jewelled Dog Collar', 11.97, (select id from category where name = 'Collars'),
+                    24,
+                    'Upgrade your pooch''s style with the Coastal® Jeweled Dog Collar! This collar provides eye-catching fashion with its jewel strip. The pop of bling sits on durable, fade-resistant nylon featuring a variety of bold colors. Its easy-to-secure buckle allows you to adjust the collar to the perfect fit so your dog can enjoy style and comfort. Choose a color that complements your dog''s unique personality and add some sparkle to your furry friend''s fashion.',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/coastal-pet-products-coastal-jewelled-dog-collar-3-8-x-10-black-28360941469798_376x489.jpg?v=1692400861',
+                    'OUTDOORS'),
+                   ('ABK4547', 'Coastal Accent Microfiber Dog Collar', 23.97,
+                    (select id from category where name = 'Collars'), 24,
+                    'Make a bold fashion statement with Accent Microfiber Collars! Each collar is embellished with stylish additions like color-coordinated bows and flowers. If you want a more casual look for your pooch, each embellishment features an elastic back for easy adjustment or removal. Even without the accent piece, the collar''s premium rose gold hardware maintains a touch of chicness. Your dog will love the comfort of the collar''s soft, microfiber material and adjustable sizing. Pair with a matching Leash to complete the look (Sold Separately)!',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/coastal-pet-products-coastal-accent-microfiber-dog-collar-28560474767462_376x489.jpg?v=1692414536',
+                    'OUTDOORS'),
+                   ('ABK4548', 'Lacets Double-Ply Leather Dog Collar', 39.17,
+                    (select id from category where name = 'Collars'), 24,
+                    'The double-ply design of this collar offers two layers of durable black leather sewn together. These genuine high-quality leather collars are made locally in Canada. Each collar includes sturdy stitching that won’t irritate your dog’s skin and coat and durable steel hardware for long-lasting use. Available in different lengths and widths to help you choose the right collar for a happy pet. Made in Quebec, Canada',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/lacets-arizona-lacets-double-ply-leather-dog-collar-28549473534054_376x489.png?v=1691392863',
+                    'OUTDOORS'),
+                   ('ABK4549', 'Lacets Single-Ply Leather Dog Collar', 9.27,
+                    (select id from category where name = 'Collars'), 24,
+                    'These genuine high-quality black leather collars are made locally in Canada. Each collar includes sturdy stitching that won’t irritate your dog’s skin and coat and durable steel hardware for long-lasting use. Real black leather dog collars. Available in different lengths and widths to help you choose the right collar for a happy pet.',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/lacets-arizona-lacets-single-ply-leather-dog-collar-28549227741286_376x489.jpg?v=1691392517',
+                    'OUTDOORS'),
+                   ('ABK4550', 'K9 Explorer Reflective Braided Rope Slip Dog Leash', 49.97,
+                    (select id from category where name = 'Collars'), 24,
+                    'Get added convenience with the K9 Explorer® Reflective Braided Rope Slip Dog Leash! The slip leash eliminates the need for a dog collar, providing an all-in-one solution for walking your dog. Its unique braided design features reflective material for improved visibility and safety, especially at night. Plus, the leash''s strong, durable construction ensures reliable but comfortable control while walking your dog. Its braided design features two complementary colors for a stylish look. Choose the leash that best fits your dog''s style!',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/coastal-pet-products-k9-explorer-reflective-braided-rope-slip-dog-leash-29684843020390_376x489.png?v=1693929635',
+                    'OUTDOORS'),
+                   ('ABK4551', 'Original TickKey , Tick Removal Tool', 14.97,
+                    (select id from category where name = 'Care'), 54,
+                    'Tweezer-Free Tick Removal for Humans and Pets. The Original Tick Key™ is expertly engineered to remove ticks correctly and promptly. It is compact by design, ensuring it can fit anywhere from a key chain, to a wallet, to your dog’s leash. The iconic key design is easy to use , simply place the key so the tick is in the teardrop hole. Simply slide your Original Tick Key™ flush against your skin to entrap the tick. Continue pulling quickly in the same direction for total and proper removal.',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/tickkey-original-tickkey-tick-removal-tool-29663159615590_376x489.jpg?v=1692439014',
+                    'INDOORS'),
+                   ('ABK4552', 'ZenPet Tick Tornado , Tick Removal Tool', 12.37,
+                    (select id from category where name = 'Care'), 50,
+                    'The safest and easiest way to remove dangerous ticks from your pet. Created by a veterinarian, the Tick Tornado is an effective alternative to tweezers, matches, or other devices. The Tick Tornado safely removes the entire tick, reducing the risk of infection and serious illnesses to animals and people. ',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/zenpet-zenpet-tick-tornado-tick-removal-tool-29550336180326_376x489.jpg?v=1691095877',
+                    'INDOORS'),
+                   ('ABK4553', 'Zodiac Double Action Flea &amp; Tick Shampoo For Dogs', 22.87,
+                    (select id from category where name = 'Care'), 20,
+                    'Zodiac Double Action Shampoo is an innovative concentrated insecticidal shampoo enriched with oatmeal, coconut extract, lanolin and aloe. It leaves your pet''s coat soft, shining and manageable. This shampoo contains the Insect Growth Regulator (IGR) Precor which effectively breaks the flea life cycle and prevents the growth of the preadult stages of life',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/zodiac-zodiac-double-action-flea-tick-shampoo-for-dogs-and-cats-29496573034598_376x489.jpg?v=1691104506',
+                    'INDOORS'),
+                   ('ABK4554', 'Zodiac Premise Flea Spray For Household', 26.87,
+                    (select id from category where name = 'Care'), 5,
+                    'By using Zodiac Premise 1000/2000 you will kill adult fleas, flea larvae, eggs and ticks hidden in carpets, cracks, crevices, upholstery, furniture, pet bedding and other areas',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/zodiac-zodiac-premise-flea-spray-for-household-1000-28799549702246_376x489.jpg?v=1691104320',
+                    'INDOORS'),
+                   ('ABK4555', 'K9 Advantix II For Dogs', 91.67, (select id from category where name = 'Care'), 6,
+                    'K9 Advantix® II is a topical monthly application that works through contact to control fleas, ticks and lice on dogs, and protects them from further infestation.',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/bayer-k9-advantix-ii-for-dogs-small-28313951010918_376x489.jpg?v=1691402579',
+                    'INDOORS'),
+                   ('ABK4556', 'ClearQuest Dual-End Toothbrush', 3.18, (select id from category where name = 'Care'),
+                    100, 'Effective plaque and tartar removal with angled design and tapered bristles', 'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/clearquest-clearquest-dual-end-toothbrush-13976791908454_376x489.jpg?v=1692424087',
+                    'INDOORS'),
+                   ('ABK4557', 'AFP Sparkle Dog Toothpaste', 10.88, (select id from category where name = 'Care'), 20,
+                    'Sparkle toothpaste is formulated with baking soda that disolves deep in the microscopic crevices on the tooth surface for maximum strength cleaning. It is also formulated with natural ingredients for advanced breath freshening and teeth whitening. Available in Peanut Butter or Vanilla Ginger flavors.',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/all-for-paws-afp-sparkle-dog-toothpaste-peanut-butter-29550394114150_376x489.webp?v=1691082546',
+                    'INDOORS'),
+                   ('ABK4558', 'AFP Sparkle , Finger Toothbrushes', 10.38,
+                    (select id from category where name = 'Care'), 50,
+                    'Designed to fit right over your finger, the soft bristles gently clean your pet''s teeth while removing embedded debris. Soft and flexible, these brushes reach all areas of your pet''s mouth gently',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/all-for-paws-afp-sparkle-finger-toothbrushes-29550397390950_376x489.png?v=1692346512',
+                    'INDOORS'),
+                   ('ABK4559', 'Enviro Fresh Itchy Skin Relief For Dogs', 11.87,
+                    (select id from category where name = 'Care'), 20,
+                    'Itchy Skin Relief from Enviro Fresh is an affordable, fast-acting, soothing spray for itchy patches on your pet',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/enviro-fresh-enviro-fresh-itchy-skin-relief-for-dogs-cats-29488511484006_376x489.png?v=1692417431',
+                    'INDOORS'),
+                   ('ABK4560', 'Leba III Dental Care - Dental Spray With Dropper', 88.43,
+                    (select id from category where name = 'Care'), 20,
+                    'LEBA III balances the chemistry of the mouth keeping the teeth clean and healthy', 'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/leba-iii-leba-iii-dental-care-dental-spray-with-dropper-1-oz-29550028783718_376x489.png?v=1691409961',
+                    'INDOORS'),
+                   ('ABK4561', 'FURminator De-Shedding Tool Large Dog Long Hai', 72.97,
+                    (select id from category where name = 'Care'), 50,
+                    'Take your grooming routine into your own hands by implementing the FURminator® Ultimate Hair Reduction System™: Brush, deShed, Bathe and Maintain for grooming confidence in the comfort of your own home. Our deShedding tools, grooming tools and hair solutions offer a grooming regimen catered to any dog or cat.',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/furminator-furminator-de-shedding-tool-large-dog-long-hair-29503791038566_376x489.jpg?v=1691450106',
+                    'INDOORS'),
+                   ('ABK4562', 'AFP LAM Classic Lambswool Pillow Pet Bed - Brown', 59.99,
+                    (select id from category where name = 'Furniture'), 15,
+                    'The Lambs wool Pillow Bed is the perfect bed for the dogs who think your couch is their own bed. Let your dog stretch out on his own comfortable new bed. The Lambs wool Pillow Bed offers increased comfort, durability and support for your dog. The bed provides warmth to your dog and makes them feel good and relaxed. It is available in a variety of sizes and colors',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/all-for-paws-afp-lam-classic-lambswool-pillow-pet-bed-brown-29586970640486_376x489.png?v=1692337861',
+                    'INDOORS'),
+                   ('ABK4563', 'M-PETS Nest Cushion Pet Bed', 34.99, (select id from category where name = 'Furniture'),
+                    0,
+                    'M-Pets Nest Cushion Pet Bed oxford fabric exterior with super-soft filling is perfect for dogs &amp; cats who love to snuggle down and snooze!',
+                    'OUT OF STOCK',
+                    'https://www.petland.ca/cdn/shop/files/m-pets-m-pets-nest-cushion-pet-bed-28906327244902_376x489.png?v=1691385302',
+                    'INDOORS'),
+                   ('ABK4564', 'Nature''s Miracle Orthopedic Pet Beds', 20.35,
+                    (select id from category where name = 'Furniture'), 0, 'Washable &amp; Waterproof', 'OUT OF STOCK',
+                    'https://www.petland.ca/cdn/shop/files/nature-s-miracle-nature-s-miracle-orthopedic-pet-beds-29810730008678_376x489.png?v=1700774447',
+                    'INDOORS'),
+                   ('ABK4565', 'Outward Hound Pawsh Donut Cuddler Bed', 84.97,
+                    (select id from category where name = 'Furniture'), 23,
+                    'Your beloved pet deserves high-end luxury, glamour, and style. Get them only the best — beds with exquisite fabrics that provide the utmost comfort and sophisticated flair. Make sure you don''t compromise when it comes to style , with Donut Cuddler Bed, you won''t have to',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/outward-hound-outward-hound-pawsh-donut-cuddler-bed-mink-29613679509606_376x489.jpg?v=1691283790',
+                    'INDOORS'),
+                   ('ABK4567', 'AFP LAM Herringbone Bolster Pet Bed - Grey', 44.99,
+                    (select id from category where name = 'Furniture'), 16,
+                    'The All For Paws Lambs Wool Bolster Bed is the perfect cozy, snuggly bed for your dog to cuddle in after a long day of playing. The Bolster Bed gives your dog the additional support that every dog craves. Walls on three sides deliver reinforced pillow support and the band stitching ensures your bed holds it shape while allowing your dog both back and head support',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/all-for-paws-afp-lam-herringbone-bolster-pet-bed-grey-27962758758502_376x489.jpg?v=1692338035',
+                    'INDOORS'),
+                   ('ABK4568', 'K&amp;H Thermo Basket Pet Bed', 94.67,
+                    (select id from category where name = 'Furniture'), 23,
+                    'The K&amp;H Thermo-Basket Pet Bed has firm sidewalls accompanied by a soft cushion filled with polyfil',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/k-h-k-h-thermo-basket-pet-bed-29586999738470_376x489.png?v=1691410500',
+                    'INDOORS'),
+                   ('ABK4569', 'Midwest Quiet Time Deluxe Pet Mat', 17.57,
+                    (select id from category where name = 'Furniture'), 43,
+                    'The Quiet Time Deluxe Pet Mat was designed with your pet''s comfort and your convenience in mind! The ultra soft synthetic fur cover provides your pet with comfort for all seasons while the compact size allows you to fold it neatly into the crate for travel or it can be rolled-up for easy storage',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/midwest-homes-for-pets-midwest-quiet-time-deluxe-pet-mat-28274664407142_376x489.jpg?v=1691351832',
+                    'INDOORS'),
+                   ('ABK4570', 'M-PETS Snake Bench Cushion', 25.97, (select id from category where name = 'Furniture'),
+                    13,
+                    'This plush dog bed fits various sizes of dog crates and works very well as a standalone bed. Made with polypropylene fiber on the inside and plush fabric on the outside makes cleaning easy and efficient as it dries quickly',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/m-pets-m-pets-snake-bench-cushion-28906278060134_376x489.png?v=1691381173',
+                    'INDOORS'),
+                   ('ABK4571', 'PetSafe CozyUp Plus Folding Pet Steps', 134.98,
+                    (select id from category where name = 'Furniture'), 6,
+                    'Let cuddle time continue with your best friend with the help of PetSafe® CozyUp® Folding Pet Steps that are perfect for both dogs and cats. If your pup or kitty isn’t quite tall enough to reach the bed or couch, or if you want to help protect their joints, folding pet stairs give your furry friend the freedom to get on and off furniture all by themselves',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/petsafe-petsafe-cozyup-plus-folding-pet-steps-15298499346534_376x489.jpg?v=1691257513',
+                    'INDOORS'),
+                   ('ABK4572', 'K&amp;H Lectro-Soft Heated Pet Bed', 119.87,
+                    (select id from category where name = 'Furniture'), 0,
+                    'The market''s only soft outdoor heated pet bed!', 'OUT OF STOCK',
+                    'https://www.petland.ca/cdn/shop/files/k-h-k-h-lectro-soft-heated-pet-bed-large-25-x36-29586990858342_376x489.png?v=1691412314',
+                    'INDOORS'),
+                   ('ABK4573', 'Lucky Dog Red Elevated Pet Bed', 105.97,
+                    (select id from category where name = 'Furniture'), 16,
+                    'Sleeping on a hard floor’s no fun for anyone. This includes your pets, so we’ve upped the game with our Comfort Cots that lift your little buddy a luxurious 7” of the ground',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/lucky-dog-lucky-dog-red-elevated-pet-bed-29299547996262_376x489.jpg?v=1691358852',
+                    'INDOORS'),
+                   ('ABK4574', 'FouFouDog Bodyguard Dog Pants', 52.97,
+                    (select id from category where name = 'Clothing'), 13,
+                    'Rain + Mud = One Dirty Dog. We have the solution to a muddy undercarriage and muddy legs after one of those rainy walks. The Bodyguard covers the essentials, and easily fastens with adjustable buckles',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/foufoubrands-foufoudog-bodyguard-dog-pants-29237384839270_376x489.png?v=1691462338',
+                    'OUTDOORS'),
+                   ('ABK4575', 'Silver Paw Hoodie With Chevron', 37.37,
+                    (select id from category where name = 'Clothing'), 20,
+                    'Keep your dog warm and looking stylish with this warm hoodie. This piece features an interior that is lined with super soft and warm material. ',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/silver-paw-silver-paw-hoodie-with-chevron-black-small-29169982701670_376x489.jpg?v=1691176859',
+                    'OUTDOORS'),
+                   ('ABK4576', 'Fashion Pet Buffalo Plaid Hat', 18.97,
+                    (select id from category where name = 'Clothing'), 20,
+                    'Keep your pet''s head warm and stylish this winter with Fashion Pet''s Buffalo Plaid Hat. The adjustable toggle chin-strap and soft Sherpa lined ear holes give your pet maximum comfort for cold-weather walks or fun photo',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/ethical-products-fashion-pet-buffalo-plaid-hat-29258408460390_376x489.jpg?v=1691447765',
+                    'OUTDOORS'),
+                   ('ABK4590', 'Alcott Adventure Retractable Dog Leash', 25.78,
+                    (select id from category where name = 'Leads'), 13,
+                    'Designed to give your thrill sniffer freedom during your adventures together, without sacrificing safety and comfort, all of our adventure retractable leashes feature a super soft grip handle and reflective belts (no cords!).',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/alcott-alcott-adventure-retractable-dog-leash-29508049404006_376x489.jpg?v=1692337675',
+                    'OUTDOORS'),
+                   ('ABK4578', 'Silver Paw Hooded Sweater With Chevron Pattern', 28.17,
+                    (select id from category where name = 'Clothing'), 15,
+                    'Keep your dog warm and looking stylish with this warm knitted sweater. This piece features an interior that is lined with super soft and warm material, while the hood features a snapback closure so you''re ready no matter the weather',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/silver-paw-silver-paw-hooded-sweater-with-chevron-pattern-fuschia-xsmall-29172128579686_376x489.jpg?v=1691176862',
+                    'OUTDOORS'),
+                   ('ABK4577', 'Silver Paw 2 Piece Snow Suit', 66.27, (select id from category where name = 'Clothing'),
+                    13,
+                    'You and your furry pal will be able to take on the day no matter how crazy the weather gets in this incredibly practical dog snowsuit',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/silver-paw-silver-paw-2-piece-snow-suit-black-xsmall-5137448960102_376x489.jpg?v=1691177404',
+                    'OUTDOORS'),
+                   ('ABK4579', 'FouFouDog Rubber Dipped Socks', 23.87,
+                    (select id from category where name = 'Clothing'), 15,
+                    'NEW &amp; IMPROVED Rubber Dipped Socks now feature a thicker, fully textured, rubber dipped sole.',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/foufoubrands-foufoudog-rubber-dipped-socks-29237462696038_376x489.jpg?v=1691462168',
+                    'OUTDOORS'),
+                   ('ABK4581', 'NHL Montreal Canadiens Hooded Sweater For Dogs', 49.97,
+                    (select id from category where name = 'Clothing'), 15,
+                    'Online Only Item With this ruggedly stylish V-neck sweater decked out with your favorite NHL team, your dog will stride with team spirit',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/karsuh-nhl-montreal-canadiens-hooded-sweater-for-dogs-27929202065510_376x489.jpg?v=1691334357',
+                    'OUTDOORS'),
+                   ('ABK4580', 'Good Dog All Seasons Dog Boots', 43.97,
+                    (select id from category where name = 'Clothing'), 10,
+                    'Good Dog All Seasons Dog Boots help keep paws safe from ice, snow, salt, hot pavements &amp; more! These boots are designed to make walks with your best friend as comfortable as possible. The upper fabric of the boot is made with waterproof lined Spandex, and the boot sole is textured rubber for maximum grip. Double velcro closures and a drawstring at the top of the boot adds security and makes putting them on an easier experience',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/petland-canada-good-dog-all-seasons-dog-boots-16029007282278_376x489.jpg?v=1691441472',
+                    'OUTDOORS'),
+                   ('ABK4582', 'Silver Paw Easy Fit Mock Neck Knit Sweater', 25.97,
+                    (select id from category where name = 'Clothing'), 0,
+                    'Silver Paw Easy Fit Mock Neck Knit Sweater is a style staple that''s comfy and flattering. Stay warm and look cool with this timeless design',
+                    'OUT OF STOCK',
+                    'https://www.petland.ca/cdn/shop/files/silver-paw-silver-paw-easy-fit-mock-neck-knit-sweater-29742710751334_376x489.png?v=1698171708',
+                    'OUTDOORS'),
+                   ('ABK4583', 'Silver Paw Inside Anti Slip Socks', 17.47,
+                    (select id from category where name = 'Clothing'), 56,
+                    'These are made with SilverShield technology, a powerful antimicrobial agent that eliminates odor-causing bacteria, mold and mildew, so both you and your pet can be healthier and more comfortable',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/silver-paw-silver-paw-inside-anti-slip-socks-fuschia-xlarge-12012968149094_376x489.jpg?v=1691176683',
+                    'OUTDOORS'),
+                   ('ABK4584', 'PetSafe Easy Walk Harness With Lead', 36.95,
+                    (select id from category where name = 'Leads'), 20,
+                    'Online Only Item The Easy Walk Harness gently discourages your dog from pulling on the leash. When your dog pulls, the harness steers your dog to the side and redirects his attention toward you. ',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/petsafe-petsafe-easy-walk-harness-with-lead-small-black-1324456476713_376x489.jpg?v=1691257140',
+                    'OUTDOORS'),
+                   ('ABK4586', 'EzyDog Quick Fit Dog Harness', 44.37,
+                    (select id from category where name = 'Leads'), 15,
+                    'The EzyDog Quick Fit Harness is the perfect solution for dog owners who want the benefits of a harness with the fitting ease of a collar',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/ezydog-ezydog-quick-fit-dog-harness-small-28373908324454_376x489.jpg?v=1692421390',
+                    'OUTDOORS'),
+                   ('ABK4585', 'Comfort Wrap Adjustable Nylon Dog Harness', 17.97,
+                    (select id from category where name = 'Leads'), 15,
+                    'Get comfort and convenience with the Comfort Wrap® Adjustable Dog Harness! The simple design and curved-snap-lock buckle of this harness make putting this harness on quick and easy, even with fussy dogs',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/coastal-pet-products-comfort-wrap-adjustable-nylon-dog-harness-x-small-black-29555195379814_376x489.webp?v=1692416875',
+                    'OUTDOORS'),
+                   ('ABK4587', 'PetSafe Anti-Pull Dog Lead', 19.99,
+                    (select id from category where name = 'Leads'), 0,
+                    'Online Only Item Designed to be used with the PetSafe® 3 in 1 Harness and Car Restraint, the Anti-Pull Dog Lead provides more control and reduces lead pulling.',
+                    'OUT OF STOCK',
+                    'https://www.petland.ca/cdn/shop/files/petsafe-petsafe-anti-pull-dog-lead-29343248777318_376x489.jpg?v=1691258403',
+                    'OUTDOORS'),
+                   ('ABK4588', 'Lacets Leather Training Lead Dog Leash', 56.57,
+                    (select id from category where name = 'Leads'), 21,
+                    'This top-notch, multi-use, genuine-leather leash is an elegant choice. Perfect for training and leisurely strolls.',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/lacets-arizona-lacets-leather-training-lead-dog-leash-29602269298790_376x489.jpg?v=1691392691',
+                    'OUTDOORS'),
+                   ('ABK4589', 'Comfort Soft Reflective Wrap Adjustable Dog', 42.97,
+                    (select id from category where name = 'Leads'), 53,
+                    'The Coastal Pet Products Comfort Soft® Reflective Wrap Adjustable Dog Harness is a great choice for dogs who need a little extra comfort and security while out on walks',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/coastal-pet-products-comfort-soft-reflective-wrap-adjustable-dog-harness-xsmall-lime-28358978371686_376x489.jpg?v=1692416531',
+                    'OUTDOORS'),
+                   ('ABK4591', 'Flexi New Comfort Retractable Dog Cord', 24.87,
+                    (select id from category where name = 'Leads'), 0,
+                    'The perfectly designed two-color leash is an ingenious eye-catcher any way you look at it',
+                    'OUT OF STOCK',
+                    'https://www.petland.ca/cdn/shop/files/flexi-flexi-new-comfort-retractable-dog-cord-leash-29531422916710_376x489.jpg?v=1692410586',
+                    'OUTDOORS'),
+                   ('ABK4592', 'Cool Bud Retractable Dog Leash', 26.88,
+                    (select id from category where name = 'Leads'), 11,
+                    'Introducing the excellent Cool Bud Retractable Dog Leash. This leash includes functions such as free movement, brake, brake lock, release, and pull back',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/petland-canada-cool-bud-retractable-dog-leash-large-11041604698214_376x489.jpg?v=1692417427',
+                    'OUTDOORS'),
+                   ('ABK4293', 'Coastal Double-Handle Bungee Leash', 39.97,
+                    (select id from category where name = 'Leads'), 15,
+                    'The double handle bungee leash gives you added control with a secondary traffic handle, but also allows for gentle stopping with the shock absorbing bungee element',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/coastal-pet-products-coastal-double-handle-bungee-leash-28811736744038_376x489.jpg?v=1692400682',
+                    'OUTDOORS'),
+                   ('ABK4294', 'Coastal Accent Microfiber Dog Leas', 28.97,
+                    (select id from category where name = 'Leads'), 14,
+                    'Stylish and comfy! These leashes are the perfect accompaniment to the fashionable Accent Microfiber dog collars and harnesses. They''re made from a soft, microfiber material you''ll love',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/coastal-pet-products-coastal-accent-microfiber-dog-leash-boho-blue-29555098288230_376x489.webp?v=1692399959',
+                    'OUTDOORS'),
+                   ('ABK4545', 'Silverpaw Bandana Collar, Toronto Blue Jays', 14.97,
+                    (select id from category where name = 'Collars'), 5,
+                    'Cheer on your Toronto Blue Jays with an adorable Blue Jays bandana collar, 100% polyester for your pup and be prepared to smile! Collar is padded to add comfort when wearing.',
+                    'IN STOCK',
+                    'https://www.petland.ca/cdn/shop/files/silver-paw-silverpaw-bandana-collar-toronto-blue-jays-small-13668000964_376x489.jpg?v=1691175075',
+                    'OUTDOORS');
+        </sql>
+    </changeSet>
+    <changeSet id="setting_createdAt_in_category_and_product" author="happylocal">
+        <sql>
+            update category
+            set created_at = current_timestamp;
+            update product
+            set created_at = current_timestamp;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

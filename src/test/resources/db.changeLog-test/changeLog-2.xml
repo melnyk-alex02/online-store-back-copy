@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="4" author="happylocal">
+        <createTable tableName="favourite_product">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="product_id" type="bigint">
+                <constraints foreignKeyName="product_id"/>
+            </column>
+            <column name="user_id" type="text"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="5" author="happylocal">
+        <addColumn tableName="discount">
+            <column name="min_price" type="decimal(12,2)"/>
+        </addColumn>
+        <addColumn tableName="product">
+            <column name="on_sale" type="boolean" defaultValueBoolean="false"/>
+        </addColumn>
+        <addColumn tableName="product">
+            <column name="sale_price" type="decimal(12,2)"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>
